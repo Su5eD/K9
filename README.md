@@ -25,6 +25,7 @@ K9 was originally created for a server about Minecraft modding, and its first co
     - What do you mean other bots already use an exclamation mark?
 - Create drama (!drama)
 - Slap people (!slap)
+- Suggestions
 - More to come!
 
 It also features a complete help system, so figuring out how to use a command is as simple as `!help [command]`.
