@@ -18,6 +18,7 @@ I'm not too picky over code style, but I would like PRs to be consistent with th
 
 - SPACES for indents
 - Same-line braces (egyptian style)
+- Use chains, stay away from using `block()`
 
 ## Nullness Annotations
 
