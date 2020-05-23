@@ -132,8 +132,7 @@ public class CommandRegistrar {
                 long count = command.getArguments().stream().filter(a -> a.required(flags.keySet())).count();
                 return ctx.reply("This command requires at least " + count + " argument" + (count > 1 ? "s" : "") + ".").thenReturn(command);
             } else if (!argstr.isEmpty() && arg.allowedValues() != null) {
-                System.out.println(arg.allowedValues().contains(argstr));
-                if (!arg.allowedValues().contains(argstr)) return ctx.reply(String.format("Invalid value provided for argument \"%s\"", arg.name())).thenReturn(command);
+                if (!arg.allowedValues().contains(argstr.split(" ")[0])) return ctx.reply(String.format("Invalid value provided for argument \"%s\"", arg.name())).thenReturn(command);
             }
             
             matcher = arg.pattern().matcher(argstr);
