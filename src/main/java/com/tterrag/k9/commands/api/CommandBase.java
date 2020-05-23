@@ -1,20 +1,20 @@
 package com.tterrag.k9.commands.api;
 
+import com.tterrag.k9.util.Patterns;
+import com.tterrag.k9.util.annotation.NonNull;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.ToString;
+import lombok.experimental.Accessors;
+
+import javax.annotation.Nullable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import com.tterrag.k9.util.annotation.NonNull;
-import com.tterrag.k9.util.Patterns;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.ToString;
-import lombok.experimental.Accessors;
 
 @Getter
 public abstract class CommandBase implements ICommand {
@@ -70,6 +70,7 @@ public abstract class CommandBase implements ICommand {
         private final String name;
         private final String description;
         private final boolean required;
+        private final List<T> allowedValues;
         
         @Override
         public boolean required(Collection<Flag> flags) {
@@ -79,8 +80,12 @@ public abstract class CommandBase implements ICommand {
     
     public static class SentenceArgument extends SimpleArgument<String> {
 
+        public SentenceArgument(String name, String description, boolean required, List<String> allowedValues) {
+            super(name, description, required, allowedValues);
+        }
+
         public SentenceArgument(String name, String description, boolean required) {
-            super(name, description, required);
+            super(name, description, required, null);
         }
 
         @Override
@@ -91,9 +96,14 @@ public abstract class CommandBase implements ICommand {
     
     public static class WordArgument extends SimpleArgument<String> {
 
-        public WordArgument(String name, String description, boolean required) {
-            super(name, description, required);
+        public WordArgument(String name, String description, boolean required, @Nullable List<String> allowedValues) {
+            super(name, description, required, allowedValues);
         }
+
+        public WordArgument(String name, String description, boolean required) {
+            super(name, description, required, null);
+        }
+
 
         @Override
         public Pattern pattern() {
@@ -109,8 +119,8 @@ public abstract class CommandBase implements ICommand {
     public static class IntegerArgument extends SimpleArgument<Integer> {
         
 
-        public IntegerArgument(String name, String description, boolean required) {
-            super(name, description, required);
+        public IntegerArgument(String name, String description, boolean required, List<Integer> allowedValues) {
+            super(name, description, required, allowedValues);
         }
         
         @Override
@@ -128,8 +138,8 @@ public abstract class CommandBase implements ICommand {
     public static class DecimalArgument extends SimpleArgument<Double> {
 
 
-        public DecimalArgument(String name, String description, boolean required) {
-            super(name, description, required);
+        public DecimalArgument(String name, String description, boolean required, List<Double> allowedValues) {
+            super(name, description, required, allowedValues);
         }
         
         @Override

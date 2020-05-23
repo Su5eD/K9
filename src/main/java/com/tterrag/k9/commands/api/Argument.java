@@ -1,9 +1,11 @@
 package com.tterrag.k9.commands.api;
 
-import java.util.Collection;
-import java.util.regex.Pattern;
-
 import com.tterrag.k9.util.Patterns;
+
+import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.List;
+import java.util.regex.Pattern;
 
 public interface Argument<T> {
 
@@ -18,4 +20,7 @@ public interface Argument<T> {
     }
     
     boolean required(Collection<Flag> flags);
+
+    @Nullable
+    List<T> allowedValues();
 }

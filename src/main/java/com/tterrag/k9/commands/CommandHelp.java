@@ -1,23 +1,18 @@
 package com.tterrag.k9.commands;
 
-import java.util.Collections;
-import java.util.Optional;
-
-import com.tterrag.k9.commands.api.Argument;
-import com.tterrag.k9.commands.api.Command;
-import com.tterrag.k9.commands.api.CommandBase;
-import com.tterrag.k9.commands.api.CommandContext;
-import com.tterrag.k9.commands.api.Flag;
-import com.tterrag.k9.commands.api.ICommand;
+import com.tterrag.k9.commands.api.*;
 import com.tterrag.k9.listeners.CommandListener;
 import com.tterrag.k9.util.EmbedCreator;
-
+import org.apache.commons.lang3.StringUtils;
 import reactor.core.publisher.Mono;
+
+import java.util.Collections;
+import java.util.Optional;
 
 @Command
 public class CommandHelp extends CommandBase {
     
-    private static final Argument<String> ARG_COMMAND = new WordArgument("command", "The command to get help on.", false);
+    private static final Argument<String> ARG_COMMAND = new WordArgument("command", "The command to get help on.", false, null);
 
     public CommandHelp() {
         super("help", false);
@@ -49,7 +44,9 @@ public class CommandHelp extends CommandBase {
                 }
                 usage.append("`\n");
                 for (Argument<?> arg : cmd.getArguments()) {
-                    usage.append("- ").append(arg.name()).append(": ").append(arg.description()).append('\n');
+                    usage.append("- ").append(arg.name()).append(": ").append(arg.description());
+                    if (arg.allowedValues() != null) usage.append(String.format("(*%s*)", StringUtils.join(arg.allowedValues(), ", ")));
+                    usage.append('\n');
                 }
                 embed.field("Usage:", usage.toString(), false);
 

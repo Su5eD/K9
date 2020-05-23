@@ -1,17 +1,5 @@
 package com.tterrag.k9.commands.api;
 
-import java.io.File;
-import java.nio.file.Paths;
-import java.time.Duration;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -24,7 +12,6 @@ import com.tterrag.k9.commands.CommandControl;
 import com.tterrag.k9.util.NullHelper;
 import com.tterrag.k9.util.Patterns;
 import com.tterrag.k9.util.annotation.Nullable;
-
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.User;
 import discord4j.core.object.util.Snowflake;
@@ -36,6 +23,14 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 import reactor.util.annotation.NonNull;
+
+import java.io.File;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class CommandRegistrar {
@@ -136,7 +131,7 @@ public class CommandRegistrar {
             if (required && argstr.isEmpty()) {
                 long count = command.getArguments().stream().filter(a -> a.required(flags.keySet())).count();
                 return ctx.reply("This command requires at least " + count + " argument" + (count > 1 ? "s" : "") + ".").thenReturn(command);
-            }
+            } else if (!argstr.isEmpty() && arg.allowedValues() != null && !arg.allowedValues().contains(argstr)) ctx.reply(String.format("Invalid value provided for argument \"%s\"", arg.name())).thenReturn(command);
             
             matcher = arg.pattern().matcher(argstr);
             
