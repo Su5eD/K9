@@ -45,7 +45,7 @@ public class CommandHelp extends CommandBase {
                 usage.append("`\n");
                 for (Argument<?> arg : cmd.getArguments()) {
                     usage.append("- ").append(arg.name()).append(": ").append(arg.description());
-                    if (arg.allowedValues() != null) usage.append(String.format("(*%s*)", StringUtils.join(arg.allowedValues(), ", ")));
+                    if (arg.allowedValues() != null) usage.append(String.format(" (*%s*)", StringUtils.join(arg.allowedValues(), ", ")));
                     usage.append('\n');
                 }
                 embed.field("Usage:", usage.toString(), false);
